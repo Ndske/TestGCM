@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SampleGCM</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="send_message">Send Message</string>
+    <string name="clear_cookie">Clear Cookie</string>
+    <string name="clear_sp">Clear SP</string>
+
+</resources>

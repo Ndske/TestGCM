@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MyActivity" >
+    <item android:id="@+id/send_message"
+        android:title="@string/send_message"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/clear_cookie"
+        android:title="@string/clear_cookie"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/clear_sp"
+        android:title="@string/clear_sp"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>
