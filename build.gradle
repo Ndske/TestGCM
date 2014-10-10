@@ -12,6 +12,25 @@ buildscript {
     }
 }
 
+project(':modules:volley') {
+
+    afterEvaluate {
+        android {
+            compileSdkVersion 20
+            buildToolsVersion '20.0.0'
+        }
+    }
+
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath 'com.android.tools.build:gradle:0.12.2'
+        }
+    }
+}
+
 allprojects {
     repositories {
         jcenter()

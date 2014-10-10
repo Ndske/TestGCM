@@ -6,5 +6,6 @@
     <string name="send_message">Send Message</string>
     <string name="clear_cookie">Clear Cookie</string>
     <string name="clear_sp">Clear SP</string>
+    <string name="post">Post</string>
 
 </resources>

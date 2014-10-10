@@ -13,4 +13,8 @@
         android:title="@string/clear_sp"
         android:orderInCategory="100"
         android:showAsAction="never" />
+    <item android:id="@+id/post"
+        android:title="@string/post"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
 </menu>
