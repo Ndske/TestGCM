@@ -36,6 +36,9 @@ import java.util.Map;
 public class MyActivity extends Activity implements MyDialogFragment.DialogButtonOnClickListener, GcmAsyncTask.RegistrationListener {
 
     /* 定数 */
+    private static final String TAG = "MyActivity.class";
+    private static final String TOP_URL = "https://www.dcm-b.jp/cs/cpsite.html?url=https://tenki.sugotoku.mopita.com/top.asp";
+    private static final String REGISTER_URL = "file:///android_asset/register.html";
 
     /**
      * WebViewインスタンス
@@ -199,5 +202,97 @@ public class MyActivity extends Activity implements MyDialogFragment.DialogButto
                 mWebView.loadUrl(TOP_URL);
             }
         }
+    }
+
+    /* ************************************************************************* */
+
+    private static final String CONTENTS_ID = "01cpn036001";
+
+    private void post1() {
+
+        final String url = "http://www.dcm-b.jp/cs/auth/newNativeAppContractStatusAuth.html";
+        RequestQueue queue = Volley.newRequestQueue(getApplicationContext());
+        StringRequest postRequest = new StringRequest(
+                Request.Method.POST,
+                url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String s) {
+                        Log.v(TAG, "RESULT: " + s);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        VolleyError e = error;
+                        Log.e(TAG, "");
+                    }
+                }) {
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                String s = "csAppId=9C0C1783A7243B874A8825FFE7C58CBD53F3B1B98758E6F199A775C6733631FA";
+                return s.getBytes();
+            }
+
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Content-Type", "application/x-www-form-urlencoded");
+                params.put("x-Content-id", CONTENTS_ID);
+                return params;
+            }
+
+            @Override
+            protected Response<String> parseNetworkResponse(NetworkResponse response) {
+                Log.v(TAG, "NetworkResponse: " + response);
+                return super.parseNetworkResponse(response);
+            }
+        };
+        queue.add(postRequest);
+    }
+
+    private void post2() {
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... params) {
+                try {
+                    URL url = new URL("http://www.dcm-b.jp/cs/auth/newNativeAppContractStatusAuth.html");
+                    HttpURLConnection con = (HttpURLConnection) url.openConnection();
+                    con.setRequestMethod("POST");
+                    con.setDoOutput(true);
+                    con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+                    con.setRequestProperty("x-Content-id", "01cpn036001");
+                    String bd = "csAppId=43a0bc9e3504f5a7931eb75ebee6e329440a15ee23293f5c776ca5031906e575";
+                    PrintStream printStream = new PrintStream(con.getOutputStream());
+                    printStream.print(bd);
+                    printStream.close();
+
+                    int responseCode = con.getResponseCode();
+
+//                    InputStream inputStream = con.getInputStream();
+//                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+//                    StringBuffer bufStr = new StringBuffer();
+//                    String temp = null;
+//                    while ((temp = bufferedReader.readLine()) != null) {
+//                        bufStr.append(temp);
+//                    }
+
+                    if (responseCode == 302) {
+                        String redirectTo = con.getHeaderField("Location");
+                        Uri uri = Uri.parse(redirectTo);
+                        Intent intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                    }
+
+                    con.disconnect();
+//                    inputStream.close();
+
+                } catch (MalformedURLException e) {
+                } catch (ProtocolException e) {
+                } catch (IOException e) {
+                }
+                return null;
+            }
+        }.execute();
     }
 }
